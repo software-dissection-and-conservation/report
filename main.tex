@@ -1,0 +1,71 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+%\usepackage{fullpage}
+\usepackage[british]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm} \newtheorem{theorem}{Theorem}
+\usepackage{color}
+\usepackage{float}
+\usepackage{tikz} \usetikzlibrary{trees}
+\usepackage{hyperref}  % should always be the last package
+
+% Default fixed font does not support bold
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{10} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{10}  % for normal
+
+% Custom colors
+\usepackage{color}
+\definecolor{keywordcolor}{rgb}{0,0,0.5}
+\definecolor{highlightcolor}{rgb}{0.6,0,0}
+\definecolor{stringcolor}{rgb}{0,0.5,0}
+
+\usepackage{listings}
+
+% Python highlighting
+\newcommand\pythonstyle{\lstset{
+    language=Python,
+    basicstyle=\ttm,
+    otherkeywords={self}, % Add keywords here
+    keywordstyle=\ttb\color{keywordcolor},
+    emph={__init__}, % Custom highlighting
+    emphstyle=\ttb\color{highlightcolor}, % Custom highlighting style
+    stringstyle=\color{stringcolor},
+    frame=tb,
+    numbers=left,
+	framexleftmargin=2em, % extend frame to include line numbers
+    showstringspaces=false,
+    numberstyle=\color{gray},
+}}
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+% External Python files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
+% Inline Python
+\newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
+
+% Section style (removes the need to use \noindent)
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+\include{title}
+
+\begin{document}
+
+\maketitle
+
+\noindent
+
+\input{body}
+
+\end{document}
