@@ -1,20 +1,61 @@
 \section{External testing of Parsec.py}
+% A draft document providing some external tests. This should be done before  you have a meeting in week 49.
 
-
-% Examples of how to embed python code
-\section{``In-text'' listing highlighting}
 
 \begin{python}
-class MyClass(Yourclass):
-  def __init__(self, my, yours):
-      bla = '5 1 2 3 4'
-      print bla
+def test_letter(self):
+    parser = letter()
+    for c in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz":
+        self.assertEqual(parser.parse(c), c)
+    for c in "0123456789+-.,;:?^*":
+        self.assertRaises(ParseError, parser.parse, c)
+
+    self.assertEqual(parser.parse("xyz1"), "x")
+    self.assertRaises(ParseError, parser.parse, "42")
 \end{python}
 
-\section{External listing highlighting}
+\begin{python}
+def test_times(self):
+    parser = times(string("x"), 3, 5)
+    self.assertRaises(ParseError, parser.parse, "")
+    self.assertRaises(ParseError, parser.parse, "x")
+    self.assertRaises(ParseError, parser.parse, "xx")
+    self.assertEqual(parser.parse("xxx"), ["x"]*3)
+    self.assertEqual(parser.parse("xxxx"), ["x"]*4)
+    self.assertEqual(parser.parse("xxxxx"), ["x"]*5)
+    self.assertEqual(parser.parse("xxxxxx"), ["x"]*5) # one x remains to be consumed
+    self.assertRaises(ParseError, parser.parse_strict, "xxxxxx")
+    self.assertRaises(ParseError, parser.parse_strict, "xxxxxxx")
+    self.assertRaises(ParseError, parser.parse_strict, "xxxxxxxxxxxxxxxx")
+\end{python}
 
-\pythonexternal{sample.py}
 
-\section{Inline highlighting}
 
-Definition \pythoninline{class MyClass} means \dots
+\begin{python}
+def test_joint(self):
+    parser = string('x') + string('y')
+    self.assertEqual(parser.parse('xy'), ('x', 'y'))
+    self.assertRaises(ParseError, parser.parse, 'y')
+    self.assertRaises(ParseError, parser.parse, 'z')
+
+    nonlocals = {'changed': False}
+
+    @generate
+    def fn():
+        nonlocals['changed'] = True
+        yield string('y')
+
+    parser = string('x') + fn
+    self.assertRaises(ParseError, parser.parse, '1')
+    self.assertEqual(nonlocals['changed'], False)
+\end{python}
+
+
+
+% \section{External listing highlighting}
+
+% \pythonexternal{sample.py}
+
+% \section{Inline highlighting}
+
+% Definition \pythoninline{class MyClass} means \dots
