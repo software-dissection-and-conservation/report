@@ -1,0 +1,27 @@
+\begin{python}
+#================================
+# INFORMAL GRAMMAR SPECIFICATION
+#================================
+comment = #.*\n
+token name = regex | string
+start = rule
+
+rule = production | production rule
+production = item | item production
+item = token | string
+
+#================================
+# EXAMPLE
+#================================
+# this is a comments
+token number = \d+
+token plus = "+"
+
+start = E
+
+# Grammar
+E = TX
+T = "(" E ")" | num Y
+X = plus E | ""
+Y = "*" T  | ""
+\end{python}

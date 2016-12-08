@@ -8,7 +8,7 @@ def test_letter(self):
     for c in "0123456789+-.,;:?^*":
         self.assertRaises(ParseError, parser.parse, c)
 
-    self.assertEqual(parser.parse("xyz1"), "x")
+    self.assertEqual(parser.parse("xyz1"), "x") # yz1 remains to be consumed
     self.assertRaises(ParseError, parser.parse, "42")
 \end{python}
 
