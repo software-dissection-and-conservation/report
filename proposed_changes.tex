@@ -1,3 +1,12 @@
+While being able to create and combine parsers in Python using Parsec has its benefits it is sometimes easier to be able to express what to parse using a grammar. So our proposal is to extend Parsec to be able to read a grammar file where the user can specify a context free grammar and generate a parser from that. Our extended library would read the grammar file and generate a Python file as output containing the code for the parser. 
+
+
+Our motivation for chosing this as our project is a project that is well suited to use test driven development. A Parsec parser is very easy to test as it is very modular and we can perform whitebox testing on the individual parts that the parser is constructed with.
+
+
+for as it is very simple to test the small parsers, and if we can write tests to show that the combinator functions works it makes it easy to show that even more complex parsers work as intended. As a more complex parser is just a collection of simple parsers joined togheter with the combinator functions. 
+
+We have decided to put some limitations on the grammar that we accept. These being that the grammar has to be left factored and does not contain any left recursion.
 \begin{python}
 #================================
 # INFORMAL GRAMMAR SPECIFICATION
