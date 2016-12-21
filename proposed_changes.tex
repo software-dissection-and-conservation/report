@@ -3,21 +3,7 @@ Our motivation for chosing this as our project is that is well suited for test d
 We have decided to put some limitations on the grammars that we accept. These being that the grammar has to be left factored and does not contain any left recursion (direct or indirect).\par
 In the grammar file it is possible to create tokens to give name to strings, that can be used as terminals in the grammar. A rule in the grammar is defined by giving the rule a name, followed by an equals sign and a list of productions separated by pipes ($\vert$). Which rule is the start rule has to be explicitly stated by setting the $start$ variable to be equal to the intended start rule. It is also possible to create comments that will be ignored by the parser by starting a line with a hash character (\#). More over, every non-comment line has to be ended with a semicolon (;). Below is an example grammar file.
 \begin{python}
-#================================
-# INFORMAL GRAMMAR SPECIFICATION
-#================================
-comment = #.*\n;
-token name = regex | string;
-start = rule;
-
-rule = production | production rule;
-production = item | item production;
-item = token | string;
-
-#================================
-# EXAMPLE
-#================================
-# this is a comments
+# Tokens
 token number = \d+;
 token plus = "+";
 
