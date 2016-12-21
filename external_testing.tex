@@ -68,7 +68,7 @@ Also when the second parser recursively constructs new parsers the code might en
 The test case \ref{test3} tests if unwanted side effects are executed when an earlier parser in a parser combination fails.
 The cause of the bug is simple, it is caused by how the conditional check if a parser have failed is done.
 Instead of terminating if the result of the parser contains an error, the check as seen in \ref{bug1} will wrongly check against if the variable $v$ exists.
-This will of course always be the case and since the result is negated the return will never occur. The fix is to simply check against the previous parser's status \ref{bug2}.
+This will of course always be the case and since the result is negated the return will never occur. The fix is to simply check against the previous parser's status field\ref{bug2}.
 
 
 \renewcommand{\lstlistingname}{Code}
@@ -87,6 +87,11 @@ This will of course always be the case and since the result is negated the retur
         return v
     ...
 \end{python}
+
+
+The second bug in the source code we found was not as critical and hidden as the previous one. This one prevented the code from running so it immediately gave us input that something was wrong.
+An error like this is much easier to find than the fault discussed previously discussed because the code simply did not run an all when this particular function was called.
+There was a mismatch in the signature of a method a wrapper function tried to call.
 
 
 % \section{External listing highlighting}
