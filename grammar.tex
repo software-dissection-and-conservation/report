@@ -3,8 +3,8 @@ For parsing the grammar we have created a few different parsers, these parsers i
 start = (symbol("start") >> symbol("=") >> identifier
     << symbol(";")).parsecmap(Start)
 \end{python}
-The other parsers are created in similar fashion, where they are just combinations of really small simple parsers. Because the parsers we have written are so modular it has been very easy to do this using test driven development. Since we have been able to split the job of parsing an entire grammar into many smaller parts, to acually parse a grammar is just a matter of calling the many parser with the smaller ones separated by or.
+The other parsers are created in similar fashion, where they are just combinations of really small simple parsers. Because the parsers we have written are so modular it has been very easy to do this using test driven development. Since we have been able to split the job of parsing an entire grammar into many smaller parts, to acually parse a grammar is just a matter of calling the many parser with the smaller ones separated by try\_choice (try\_choice is a parser that takes several parsers and try to use them in the order they are given).
 \begin{python}
-grammar = many(trim(comment | start | token | rule)).parsecmap(Grammar)
+grammar = many(trim(comment ^ start ^ token ^ rule)).parsecmap(Grammar)
 \end{python}
 
