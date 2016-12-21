@@ -1,0 +1,17 @@
+The generation of the Python code is rather simple as most of the work of identifying the structure and semantics of the grammar is done with the parser. As the parser generates iterable objects from the Abstract Syntax Tree classes we can easily identify what the parser has found.
+
+
+\subsubsection{Parsing Details}
+
+The main idea is that we first parse the grammar and store the result of each line in the grammar file in data structures. Simultaneously constructing the core structure of the intended function body (parsec parser) that corresponds to every declaration in the grammar.
+
+There is limited error handling during the construction of the Python code. The idea to this is that it is easier to either handle the errors with the parser or let the Python interpreter explain the faults that is generated. What we do is make sure there are no multiple definitions of any rule, token or the starting parser.
+
+Comments in the grammar are thrown away. There is not really an easy way to distinguish if and which comments are wanted in the generated Python file or kept in the grammar. Due to this ambiguity we decided to throw away all comments.
+
+\subsubsection{Code Construction}
+
+The constraints (left-recursive, left-factored e.t.c.) on the grammar is the primary reason the translation to Python code is straightforward. All parsec generators are constructed with the decorator Generate from the Parsec library. This decorator allows us to recursively construct and name our parsers however we want.
+
+This recursive descent is where we previously found a bug in how the try\_choice method works.
+
