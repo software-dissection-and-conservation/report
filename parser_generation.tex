@@ -5,6 +5,22 @@ The generation of the Python code is rather simple as most of the work of identi
 
 The main idea is that we first parse the grammar and store the result of each line in the grammar file in data structures. Simultaneously constructing the core structure of the intended function body (parsec parser) that corresponds to every declaration in the grammar.
 
+\renewcommand{\lstlistingname}{Grammar parse}
+
+\begin{python}[caption={Example line from a grammar.}, label=grammar1]
+T = "(" E ")" | num Y;
+\end{python}
+
+\begin{python}[caption={The constructed Python code that corresponds to \ref{grammar1}.}, label=code1]
+@generate
+def T():
+    ret = yield ((string("(") + E + string(")")) ^ (num + Y))
+    return ret
+\end{python}
+
+
+
+
 There is limited error handling during the construction of the Python code. The idea to this is that it is easier to either handle the errors with the parser or let the Python interpreter explain the faults that is generated. What we do is make sure there are no multiple definitions of any rule, token or the starting parser.
 
 Comments in the grammar are thrown away. There is not really an easy way to distinguish if and which comments are wanted in the generated Python file or kept in the grammar. Due to this ambiguity we decided to throw away all comments.

@@ -2,7 +2,8 @@
 
 Tests for the letter parser. Tries to parse every character in the alphabet in order and makes sure the expected character is parsed.
 Also makes sure non-letter characters cause the parser to fail.
-\begin{python}
+\renewcommand{\lstlistingname}{Test}
+\begin{python}[caption={Test case for the parser \textit{letter}.}, label=test1]
 def test_letter(self):
     parser = letter()
     for c in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz":
@@ -16,7 +17,7 @@ def test_letter(self):
 
 
 Tests for the times parser. The parser is suposed to run a given parser atleast $n$ times, and at most $m$ times. Here we test it using the string parser with various strings and $n$/$m$ values.
-\begin{python}
+\begin{python}[caption={Test case for the parser \textit{times}.}, label=test2]
 def test_times(self):
     parser = times(string("x"), 3, 5)
     self.assertRaises(ParseError, parser.parse, "")
@@ -33,7 +34,7 @@ def test_times(self):
 
 
 Tests for the join parser. This parser takes two parsers $A$ and $B$, it runs $A$ on the input, then $B$. First we try a very trivial case where we first try to parse the string 'x' and then the string 'y' and make sure that they both get parsed. Next we want to try that if parser $A$ fails, then parser $B$ should not run. This is done by creating a global variable and setting it to false, then we set parser $B$ to be a parser that changes the value of the global to the variable to true, then it parses the string. The test makes sure that parser $A$ fails and that the global variable is unchanged.
-\begin{python}
+\begin{python}[caption={Test case for the parser \textit{join}.}, label=test3]
 def test_joint(self):
     parser = string('x') + string('y')
     self.assertEqual(parser.parse('xy'), ('x', 'y'))
@@ -52,7 +53,40 @@ def test_joint(self):
     self.assertEqual(nonlocals['changed'], False)
 \end{python}
 
-While we do have a lot more tests, they are mostly very trivial and not very interesting to have a closer look at.
+% While we do have a lot more tests, they are mostly very trivial and not very interesting to have a closer look at.
+
+\subsubsection{CodeCoverage}
+Should we talk about this?
+
+\subsubsection{Bugs found}
+During our testing we found two bugs in the source code of the library. One bug had a rather big impact to how the parsers operate.
+The intended behaviour when multiple parsers are joined together with the $+$ operator is that if the first parser fails, the execution will halt and throw an error.
+This might seem like a negligable error because if any parser fail it might not really mather what happens next since everything will stop if not handled.
+But if the second parser has side effects they will still be executed.
+Also when the second parser recursively constructs new parsers the code might end up in an infinite loop or consume input when combined with the \textit{try\_choice} parser when it should not.
+
+The test case \ref{test3} tests if unwanted side effects are executed when an earlier parser in a parser combination fails.
+The cause of the bug is simple, it is caused by how the conditional check if a parser have failed is done.
+Instead of terminating if the result of the parser contains an error, the check as seen in \ref{bug1} will wrongly check against if the variable $v$ exists.
+This will of course always be the case and since the result is negated the return will never occur. The fix is to simply check against the previous parser's status \ref{bug2}.
+
+
+\renewcommand{\lstlistingname}{Code}
+
+\begin{python}[caption={Fault in the source code.}, label=bug1]
+    ...
+    if not v:
+        return v
+    ...
+\end{python}
+
+
+\begin{python}[caption={The fix to the bug showcased in \ref{bug1}.}, label=bug2]
+    ...
+    if not v.status:
+        return v
+    ...
+\end{python}
 
 
 % \section{External listing highlighting}
