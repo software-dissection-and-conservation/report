@@ -1,25 +1,13 @@
-The a
 
-
-Comment
-
-value nodes:
-    String
-    Identifier
-    RegularExpression
-
-declarations:
-    Token
-    Rule
-
-Grammar
-
-
-
-
+The abstract syntax tree consist mainly of two type of nodes, values and declarations. Value nodes hold values. There are three types of values: strings, identifiers, and regular expression. Strings literals are stored by \textit{String} nodes. references to other tokens and rules are stored by \textit{Identifier} nodes. Literals for regular expressions are stored in \textit{RegularExpression} nodes.
+There are three different types of declaration nodes: \textit{Token}, \textit{Rule} and \textit{Start}. Token nodes hold token declarations, i.e. assign a name to a string literal or regular expression. Rule nodes store data about a rule declaration, i.e. the name of the rule and its productions. Start nodes hold information about which rule to start parsing from.
 
 \pythonexternal{ast.py}
 
+The root of the abstract syntax tree is the \textit{Grammar} node. It stores all the declarations of a grammar as well as comments. Comments are stored by \textit{Comment} nodes.
 
-This is the parent for all nodes in the ast. It overides the $==$ and $!=$ operators in order to allow nodes to be compared stucturally.
+
+
+
+This is the parent for all nodes in the abstract syntax tree. It redefines the equality operators $==$ and $!=$ in order to allow nodes to be compared stucturally.
 \pythonexternal{node.py}
