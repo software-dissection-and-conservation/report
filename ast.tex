@@ -1,6 +1,6 @@
 
-The abstract syntax tree consist mainly of two type of nodes, values and declarations. Value nodes hold values. There are three types of values: strings, identifiers, and regular expression. Strings literals are stored by \textit{String} nodes. references to other tokens and rules are stored by \textit{Identifier} nodes. Literals for regular expressions are stored in \textit{RegularExpression} nodes.
-There are three different types of declaration nodes: \textit{Token}, \textit{Rule} and \textit{Start}. Token nodes hold token declarations, i.e. assign a name to a string literal or regular expression. Rule nodes store data about a rule declaration, i.e. the name of the rule and its productions. Start nodes hold information about which rule to start parsing from.
+The abstract syntax tree consist mainly of two types of nodes, values and declarations. Value nodes hold values. There are three types of values: strings, identifiers, and regular expressions. String literals are stored by \textit{String} nodes. references to other tokens and rules are stored by \textit{Identifier} nodes. Literals for regular expressions are stored in \textit{RegularExpression} nodes.\par
+There are three different types of declaration nodes: \textit{Token}, \textit{Rule} and \textit{Start}. Token nodes hold token declarations, i.e. assign a name to a string literal or regular expression. Rule nodes store data about a rule declaration, i.e. the name of the rule and its productions. Start nodes holds information about which rule to start parsing from.
 
 \pythonexternal{ast.py}
 
