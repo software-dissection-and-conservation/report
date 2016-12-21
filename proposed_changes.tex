@@ -1,36 +1,31 @@
-While being able to create and combine parsers in Python using Parsec has its benefits it is sometimes easier to be able to express what to parse using a grammar. So our proposal is to extend Parsec to be able to read a grammar file where the user can specify a context free grammar and generate a parser from that. Our extended library would read the grammar file and generate a Python file as output containing the code for the parser. 
-
-
-Our motivation for chosing this as our project is a project that is well suited to use test driven development. A Parsec parser is very easy to test as it is very modular and we can perform whitebox testing on the individual parts that the parser is constructed with.
-
-
-for as it is very simple to test the small parsers, and if we can write tests to show that the combinator functions works it makes it easy to show that even more complex parsers work as intended. As a more complex parser is just a collection of simple parsers joined togheter with the combinator functions. 
-
-We have decided to put some limitations on the grammar that we accept. These being that the grammar has to be left factored and does not contain any left recursion.
+While being able to create and combine parsers in Python using Parsec has its benefits it is sometimes easier to be able to express what to parse using a grammar. So our proposal is to extend Parsec to be able to read a grammar file where the user can specify a context free grammar and generate a parser from that. Our extended library would read the grammar file and generate a Python file as output containing the code for the parser.\par
+Our motivation for chosing this as our project is that is well suited for test driven development. We will parse the grammar file using Parsec. And a Parsec parser is easy to test as it is very modular and we can perform whitebox testing on the individual parts that the parser is constructed with. The parser that gets generated from the grammar can be tested using black box testing.\par
+We have decided to put some limitations on the grammars that we accept. These being that the grammar has to be left factored and does not contain any left recursion (direct or indirect).\par
+In the grammar file it is possible to create tokens to give name to strings, that can be used as terminals in the grammar. A rule in the grammar is defined by giving the rule a name, followed by an equals sign and a list of productions separated by pipes ($\vert$). Which rule is the start rule has to be explicitly stated by setting the $start$ variable to be equal to the intended start rule. It is also possible to create comments that will be ignored by the parser by starting a line with a hash character (\#). More over, every non-comment line has to be ended with a semicolon (;). Below is an example grammar file.
 \begin{python}
 #================================
 # INFORMAL GRAMMAR SPECIFICATION
 #================================
-comment = #.*\n
-token name = regex | string
-start = rule
+comment = #.*\n;
+token name = regex | string;
+start = rule;
 
-rule = production | production rule
-production = item | item production
-item = token | string
+rule = production | production rule;
+production = item | item production;
+item = token | string;
 
 #================================
 # EXAMPLE
 #================================
 # this is a comments
-token number = \d+
-token plus = "+"
+token number = \d+;
+token plus = "+";
 
-start = E
+start = E;
 
 # Grammar
-E = TX
-T = "(" E ")" | num Y
-X = plus E | ""
-Y = "*" T  | ""
+E = TX;
+T = "(" E ")" | num Y;
+X = plus E | "";
+Y = "*" T  | "";
 \end{python}
