@@ -1,0 +1,9 @@
+The implementation of the grammar-parser consist of four parts, the abstract syntax tree, the grammar parser, the semantic analyzer and code generator. 
+
+The abstract syntax tree, which is an in-memory representation of the structure of a grammar.
+
+ The parser analyze a grammar and construct a in-memory representation, an abstract syntax tree of the grammar.  The parser is construct using parsec, which allowed it to be very modular and well-suited for test driven development.
+
+The semantic analyzer inspect the abstract syntax tree for any semantic error such as multiple definitions for an identifier or references to non-existing constructs.
+
+The code generator traverse an abstract syntax tree, analyze and emit code able to parse anything that conformes to the grammar represented by the abstract syntax tree.
